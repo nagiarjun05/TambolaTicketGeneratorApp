@@ -7,7 +7,7 @@ const ticketGenerator=async function(req,res){
     let numbers=parseInt(req.body.ticketcounts);
     try{
         let tickets=ticketLogic.generateTicket(numbers)
-        const respond=await ticketModels.create({tickets:tickets})
+        const respond=await ticketModel.create({tickets:tickets})
         if(respond) return res.status(201).json({success: true, tickets:respond, message: "Succesfully created Tickets"});
     }
     catch(err){

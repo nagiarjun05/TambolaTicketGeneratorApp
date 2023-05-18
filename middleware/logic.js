@@ -1,9 +1,3 @@
-let swap=function(a,b){
-    let temp=a
-    a=b
-    b=temp
-};
-
 //Function to generate a single random integer within a range
 const randomInteger=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
 
@@ -105,15 +99,45 @@ function rowCheck(t){
 
 //This function is to sort the column's elements in ascending order
 // RULE #3 - In a specific column, numbers must be arranged in ascending order from top to bottom
-function sortCol(t){
-    for(let i=0;i<t[1].length;i++){
-        let arr=[t[0][i],t[1][i],t[2][i]] 
-        if(arr[0]==0 && arr[1]!=0 && arr[2]!=0) swap(t[1][i],t[2][i])
-        else if(arr[1]==0 && arr[0]!=0 && arr[2]!=0) swap(t[0][i],t[2][i])
-        else if(arr[2]==0 && arr[1]!=0 && arr[0]!=0) swap(t[1][i],t[0][i])
-        // else if(arr[2]!=0 && arr[1]!=0 && arr[0]!=0) 
-    }
-    return t;
+function sortCol(ticket){
+    //For each column in the ticket
+    for(var col=0;col<9;col++){
+        //If all three rows has numbers
+        if(ticket[0][col] != 0 && ticket[1][col] !=0 && ticket[2][col]!=0){
+          for(var r=0;r<2;r++){
+            if(ticket[r][col] > ticket[r+1][col]){
+                var temp = ticket[r][col];
+                ticket[r][col] = ticket[r+1][col];
+                ticket[r+1][col] = temp;
+            }
+          }
+        }
+        //If 1st and 2nd rows are populated
+        else if(ticket[0][col]!=0 && ticket[1][col]!=0 && ticket[2][col]==0){
+          if(ticket[0][col] > ticket[1][col]){
+            var temp = ticket[0][col];
+            ticket[0][col] = ticket[1][col];
+            ticket[1][col] = temp;
+          }
+        }
+        //If 1st and 3rd rows are populated
+        else if(ticket[0][col]!=0 && ticket[1][col]==0 && ticket[2][col]!=0){
+          if(ticket[0][col] > ticket[2][col]){
+            var temp = ticket[0][col];
+            ticket[0][col] = ticket[2][col];
+            ticket[2][col] = temp;
+          }
+        }
+        //If 2nd and 3rd rows are populated
+        else if(ticket[0][col]==0 && ticket[1][col]!=0 && ticket[2][col]!=0){
+          if(ticket[1][col] > ticket[2][col]){
+            var temp = ticket[1][col];
+            ticket[1][col] = ticket[2][col];
+            ticket[2][col] = temp;
+          }
+        }
+      }
+      return ticket;
 }
 
 
@@ -124,6 +148,7 @@ function generateTicket(count){
         var t=generateRawTicket()
         TicketCheck(t)
         rowCheck(t)
+        sortCol(t)
         res.push(t)
     }
     return res;
