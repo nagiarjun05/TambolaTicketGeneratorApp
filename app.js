@@ -10,7 +10,6 @@ dotenv.config();
 
 app.use(cors());
 
-
 // console.log(process.env.DB_NAME)
 const userRoutes=require('./routes/user');
 const ticketRoutes=require('./routes/ticket');
